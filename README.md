@@ -16,7 +16,7 @@ Make sure to have OpenSSL installed on your operating system.\
 The script has been developed and tested on a Linux architecture.
 
 ## Supported Rust Versions
-Pachy-decrypt supports a MSRV (minimum supported rust version) of Rust 1.73.
+Pachy-decrypt supports a MSRV (minimum supported rust version) of Rust 1.73.\
 Pachy-decrypt version is not guaranteed to build on Rust versions earlier than the minimum supported version.
 
 ## License
