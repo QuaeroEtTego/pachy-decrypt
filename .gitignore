@@ -1,0 +1,13 @@
+### Default ###
+/target
+
+### CLion IDEA ###
+/.idea
+
+### Data ###
+/data/*
+!/data/*.example
+/data/*/
+!/data/file/
+/data/file/*
+!/data/file/*.example
