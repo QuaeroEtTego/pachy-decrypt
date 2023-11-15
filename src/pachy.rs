@@ -12,7 +12,7 @@ pub struct Pachy(String);
 
 impl Pachy {
     pub fn from_files() -> ForensicResult<Vec<Pachy>> {
-        // Collect all paths of .pachy files as a String
+        // Collect all paths of .pachy files as vec of String
         Ok(WalkDir::new("./data/file")
             .into_iter()
             .flat_map(|e| e.map(|v| v.into_path()))
