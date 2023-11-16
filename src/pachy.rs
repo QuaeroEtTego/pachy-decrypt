@@ -23,11 +23,16 @@ impl Pachy {
     }
 
     pub fn decrypt(&self, key_sets: Arc<Vec<KeySet>>) -> ForensicResult<()> {
-        let path = self.0.as_str();
+        let path_in = self.0.as_str();
+        let path_out = path_in
+            .rsplitn(2, '.')
+            .skip(1)
+            .collect::<Vec<_>>()
+            .join(".");
 
-        for key_iv in key_sets.iter() {
-            let key = key_iv.key();
-            let iv = key_iv.iv();
+        for key_set in key_sets.iter() {
+            let key = key_set.key();
+            let iv = key_set.iv();
 
             // Since it's just a script, I don't want to waste time by using an OpenSSL crate.
             let command = Command::new("openssl")
@@ -36,9 +41,9 @@ impl Pachy {
                     "-aes-256-cbc",
                     "-d",
                     "-in",
-                    path,
+                    path_in,
                     "-out",
-                    &path.replace(".pachy", ""),
+                    &path_out,
                     "-K",
                     key,
                     "-iv",
@@ -51,11 +56,11 @@ impl Pachy {
                 .wait()?;
 
             if command.success() {
-                if fs::remove_file(path).is_err() {
-                    eprintln!("Failed to remove {path}");
+                if fs::remove_file(path_in).is_err() {
+                    eprintln!("Failed to remove {path_in}");
                 }
 
-                println!("Successfully decrypted {path} with {key_iv:?}");
+                println!("Successfully decrypted {path_in} with {key_set:?}");
                 break;
             }
         }
